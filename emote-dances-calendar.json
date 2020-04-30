@@ -3,5 +3,5 @@
   "eventOverride": false,
   "displayCountdownInWorld": true,
   "displayCountdownOnScreen": true,
-  "glitchCountdown": false
+  "glitchCountdown": true
 }
