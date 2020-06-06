@@ -2,7 +2,7 @@
 	"EventFlags": {
 		"Alpha": {
 			"eventStart": 1592071200,
-			"eventLength": 300
+			"eventOverride": true
 		}
 	}
 }
