@@ -6,6 +6,10 @@
 		"Alpha": {
 			"eventStart": 1592071200,
 			"eventOverride": false
+		},
+		"Beta": {
+			"eventStart": 1592676000,
+			"eventOverride": false
 		}
 	}
 }
