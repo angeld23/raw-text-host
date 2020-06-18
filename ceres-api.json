@@ -7,8 +7,11 @@
 			"eventStart": 1592071200,
 			"eventOverride": false
 		},
+		"PreBeta": {
+			"eventStart": 1592676000
+		},
 		"Beta": {
-			"eventStart": 1592676000,
+			"eventStart": 1592762400,
 			"eventOverride": false
 		}
 	}
