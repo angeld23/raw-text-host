@@ -13,6 +13,13 @@
 		"Beta": {
 			"eventStart": 1592762400,
 			"eventOverride": false
+		},
+		"PreGamma": {
+			"eventStart": 1593280800
+		},
+		"Gamma": {
+			"eventStart": 1593367200,
+			"eventOverride": false
 		}
 	}
 }
