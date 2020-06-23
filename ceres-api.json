@@ -20,6 +20,20 @@
 		"Gamma": {
 			"eventStart": 1593367200,
 			"eventOverride": false
+		},
+		"PreDelta": {
+			"eventStart": 1593885600
+		},
+		"Delta": {
+			"eventStart": 1593972000,
+			"eventOverride": false
+		},
+		"PreEpsilon": {
+			"eventStart": 1594576800
+		},
+		"Epsilon": {
+			"eventStart": 1595181600,
+			"eventOverride": false
 		}
 	}
 }
