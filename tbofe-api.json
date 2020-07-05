@@ -1,0 +1,11 @@
+{
+	"EventFlags": {
+		"Merch": {
+			"eventStart": 1593453900
+		},
+		"Storm": {
+			"eventStart": 1593801000,
+			"eventOverride": false
+		}
+	}
+}
