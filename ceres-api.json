@@ -29,10 +29,10 @@
 			"eventOverride": false
 		},
 		"PreEpsilon": {
-			"eventStart": 1594576800
+			"eventStart": 1594490400
 		},
 		"Epsilon": {
-			"eventStart": 1595181600,
+			"eventStart": 1594576800,
 			"eventOverride": false
 		}
 	}
