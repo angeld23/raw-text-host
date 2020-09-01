@@ -242,7 +242,6 @@ else --Otherwise, if the function does exist, then execute this code
         
         if _settings.enabled and not stopped then
            
-            print(target)
             mPos = Vector2.new(mouse.X, mouse.Y) + MOUSE_OFFSET
            
             if not dragging and clicking.L and isHovering(top) then
@@ -275,7 +274,7 @@ else --Otherwise, if the function does exist, then execute this code
             if target then
                
                 if not isBB then
-                    if target.Character and target.Character:FindFirstChild("Head") and target.Character.Head:IsA("BasePart") and (clicking.R or holding_aim) then and (target.Character:FindFirstChild("Humanoid") and target.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
+                    if target.Character and target.Character:FindFirstChild("Head") and target.Character.Head:IsA("BasePart") and (clicking.R or holding_aim) and (target.Character:FindFirstChild("Humanoid") and target.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
                        
                         local _sPos, onScreen = camera:WorldToScreenPoint(target.Character.Head.Position)
                         local sPos = Vector2.new(_sPos.X, _sPos.Y)
@@ -431,7 +430,7 @@ else --Otherwise, if the function does exist, then execute this code
                 for i,v in pairs (Players:GetPlayers()) do
                     if v ~= player and (v.Team ~= player.Team or _settings.ffa) then
                         if v.Character then
-                            if v.Character:FindFirstChild("Head") and v.Character.Head:IsA("BasePart") then (and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid:IsA("Humanoid") and v.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
+                            if v.Character:FindFirstChild("Head") and v.Character.Head:IsA("BasePart") and (v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid:IsA("Humanoid") and v.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
                                 local _sPos, onScreen = camera:WorldToScreenPoint(v.Character.Head.Position)
                                 local sPos = Vector2.new(_sPos.X, _sPos.Y)
                                 if onScreen then
