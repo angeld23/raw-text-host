@@ -5,7 +5,7 @@ wait()
  
 local games = {
     {GameId = 532222553, X_CHANGE = 0.05, Y_CHANGE = 0.04, MOUSE_OFFSET = Vector2.new(31, -1)}, --Island Royale
-    {GameId = 113491250, X_CHANGE = 0.14, Y_CHANGE = 0.14, MOUSE_OFFSET = Vector2.new(0, 0)}, --Phantom Forces
+    {GameId = 113491250, X_CHANGE = 0.14, Y_CHANGE = 0.14, MOUSE_OFFSET = Vector2.new(0, 0), NO_HUMANOIDS = true}, --Phantom Forces
     {GameId = 1168263273, X_CHANGE = 0.08, Y_CHANGE = 0.08, MOUSE_OFFSET = Vector2.new(0, 0)} --Bad Buisness
 }
  
@@ -20,11 +20,12 @@ for i,v in pairs (games) do
         X_CHANGE = v.X_CHANGE
         Y_CHANGE = v.Y_CHANGE
         MOUSE_OFFSET = v.MOUSE_OFFSET
+        NO_HUMANOIDS = v.NO_HUMANOIDS
     end
 end
  
 --Variables
-local version = "1.5"
+local version = "1.6"
  
 local stopped = false
 local minimized = false
@@ -238,9 +239,10 @@ else --Otherwise, if the function does exist, then execute this code
     end)
    
     RunService.RenderStepped:Connect(function() --Fires every frame, handles precice aiming
-       
+        
         if _settings.enabled and not stopped then
            
+            print(target)
             mPos = Vector2.new(mouse.X, mouse.Y) + MOUSE_OFFSET
            
             if not dragging and clicking.L and isHovering(top) then
@@ -273,7 +275,7 @@ else --Otherwise, if the function does exist, then execute this code
             if target then
                
                 if not isBB then
-                    if target.Character and target.Character:FindFirstChild("Head") and target.Character.Head:IsA("BasePart") and (clicking.R or holding_aim) and target.Character:FindFirstChild("Humanoid") and target.Character.Humanoid.Health > 0.01 then
+                    if target.Character and target.Character:FindFirstChild("Head") and target.Character.Head:IsA("BasePart") and (clicking.R or holding_aim) then and (target.Character:FindFirstChild("Humanoid") and target.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
                        
                         local _sPos, onScreen = camera:WorldToScreenPoint(target.Character.Head.Position)
                         local sPos = Vector2.new(_sPos.X, _sPos.Y)
@@ -424,11 +426,12 @@ else --Otherwise, if the function does exist, then execute this code
         local c = clicking.R or holding_aim --Shortcut for detecting lockon button
  
         if c and _settings.enabled and not target and not stopped then
+            
             if not isBB then
                 for i,v in pairs (Players:GetPlayers()) do
                     if v ~= player and (v.Team ~= player.Team or _settings.ffa) then
                         if v.Character then
-                            if v.Character:FindFirstChild("Head") and v.Character.Head:IsA("BasePart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid:IsA("Humanoid") and v.Character.Humanoid.Health > 0.01 then
+                            if v.Character:FindFirstChild("Head") and v.Character.Head:IsA("BasePart") then (and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid:IsA("Humanoid") and v.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
                                 local _sPos, onScreen = camera:WorldToScreenPoint(v.Character.Head.Position)
                                 local sPos = Vector2.new(_sPos.X, _sPos.Y)
                                 if onScreen then
