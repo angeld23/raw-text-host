@@ -25,7 +25,7 @@ for i,v in pairs (games) do
 end
  
 --Variables
-local version = "1.6"
+local version = "1.6a"
  
 local stopped = false
 local minimized = false
@@ -152,10 +152,10 @@ InputService.InputEnded:Connect(function(input)
 end)
  
 if not MoveMouse and false then --If no mouse movement function exists, then...
-    error("Script failed: Your exploit has no mouse movement function") --...print this message.
+    --error("Script failed: Your exploit has no mouse movement function") --...print this message.
 else --Otherwise, if the function does exist, then execute this code
    
-    print("Temporal Aimbot v"..version.." Starting...") --Print message.
+    --print("Temporal Aimbot v"..version.." Starting...") --Print message. UPDATE 9/16/2020: GAMES CAN EASILY SEE WHAT MESSAGES GET PRINTED TO CONSOLE LMAO SORRY
    
     wait(0.5)
    
