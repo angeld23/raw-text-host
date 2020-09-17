@@ -14,13 +14,16 @@ if game.GameId == 1168263273 then
     characters = workspace.Characters
     isBB = true
 end
- 
+
+local adjustOffset
 for i,v in pairs (games) do
     if game.GameId == v.GameId then
         X_CHANGE = v.X_CHANGE
         Y_CHANGE = v.Y_CHANGE
         MOUSE_OFFSET = v.MOUSE_OFFSET * ( workspace.CurrentCamera.ViewportSize / Vector2.new(2560, 1377) )
         NO_HUMANOIDS = v.NO_HUMANOIDS
+
+        adjustOffset = v.MOUSE_OFFSET
     end
 end
  
@@ -480,7 +483,9 @@ else --Otherwise, if the function does exist, then execute this code
         if main:FindFirstChild("Circle") then
             main.Circle.Size = UDim2.new(0, _settings.range * 2, 0, _settings.range * 2)
         end
-       
+        
+        MOUSE_OFFSET = adjustOffset * ( workspace.CurrentCamera.ViewportSize / Vector2.new(2560, 1377) )
+
         if _settings.showRange and not stopped and main:FindFirstChild("Circle") then
             main.Circle.Visible = true
         elseif not stopped and main:FindFirstChild("Circle") then
