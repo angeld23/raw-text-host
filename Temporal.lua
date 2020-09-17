@@ -28,7 +28,7 @@ for i,v in pairs (games) do
 end
  
 --Variables
-local version = "1.7"
+local version = "1.7a"
  
 local stopped = false
 local minimized = false
@@ -484,7 +484,9 @@ else --Otherwise, if the function does exist, then execute this code
             main.Circle.Size = UDim2.new(0, _settings.range * 2, 0, _settings.range * 2)
         end
         
-        MOUSE_OFFSET = adjustOffset * ( workspace.CurrentCamera.ViewportSize / Vector2.new(2560, 1377) )
+        if adjustOffset then
+            MOUSE_OFFSET = adjustOffset * ( workspace.CurrentCamera.ViewportSize / Vector2.new(2560, 1377) )
+        end
 
         if _settings.showRange and not stopped and main:FindFirstChild("Circle") then
             main.Circle.Visible = true
