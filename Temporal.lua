@@ -4,7 +4,7 @@ wait()
 --Custom Game Support
  
 local games = {
-    {GameId = 532222553, X_CHANGE = 0.05, Y_CHANGE = 0.04, MOUSE_OFFSET = Vector2.new(31, -1)}, --Island Royale
+    {GameId = 532222553, X_CHANGE = 0.05, Y_CHANGE = 0.04, MOUSE_OFFSET = Vector2.new(67, 0)}, --Island Royale
     {GameId = 113491250, X_CHANGE = 0.14, Y_CHANGE = 0.14, MOUSE_OFFSET = Vector2.new(0, 0), NO_HUMANOIDS = true}, --Phantom Forces
     {GameId = 1168263273, X_CHANGE = 0.08, Y_CHANGE = 0.08, MOUSE_OFFSET = Vector2.new(0, 0)} --Bad Buisness
 }
@@ -19,13 +19,13 @@ for i,v in pairs (games) do
     if game.GameId == v.GameId then
         X_CHANGE = v.X_CHANGE
         Y_CHANGE = v.Y_CHANGE
-        MOUSE_OFFSET = v.MOUSE_OFFSET
+        MOUSE_OFFSET = v.MOUSE_OFFSET * ( workspace.CurrentCamera.ViewportSize / Vector2.new(2560, 1377) )
         NO_HUMANOIDS = v.NO_HUMANOIDS
     end
 end
  
 --Variables
-local version = "1.6a"
+local version = "1.7"
  
 local stopped = false
 local minimized = false
@@ -403,7 +403,7 @@ else --Otherwise, if the function does exist, then execute this code
             record = {player = nil, distance = nil}
         end
        
-        if not stopped then
+        if not stopped and main:FindFirstChild("Circle") then
             main.Circle.Position = UDim2.new(0, mPos.X - main.AbsolutePosition.X, 0, mPos.Y - main.AbsolutePosition.Y)
         end
        
@@ -476,12 +476,14 @@ else --Otherwise, if the function does exist, then execute this code
             _prevPos = nil
             record = {player = nil, distance = nil}
         end
+        
+        if main:FindFirstChild("Circle") then
+            main.Circle.Size = UDim2.new(0, _settings.range * 2, 0, _settings.range * 2)
+        end
        
-        main.Circle.Size = UDim2.new(0, _settings.range * 2, 0, _settings.range * 2)
-       
-        if _settings.showRange and not stopped then
+        if _settings.showRange and not stopped and main:FindFirstChild("Circle") then
             main.Circle.Visible = true
-        elseif not stopped then
+        elseif not stopped and main:FindFirstChild("Circle") then
             main.Circle.Visible = false
         end
     end
