@@ -28,7 +28,7 @@ for i,v in pairs (games) do
 end
  
 --Variables
-local version = "1.8"
+local version = "1.8a"
  
 local stopped = false
 local minimized = false
