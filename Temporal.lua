@@ -142,7 +142,7 @@ InputService.InputBegan:Connect(function(input)
         clicking.R = true
     end
     if input.KeyCode == TOGGLE_VIS_KEY then
-        gui.Visible = not gui.Visible
+        gui.Enabled = not gui.Enabled
     end
 end)
  
