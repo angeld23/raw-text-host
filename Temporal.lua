@@ -28,7 +28,7 @@ for i,v in pairs (games) do
 end
  
 --Variables
-local version = "1.7a"
+local version = "1.8"
  
 local stopped = false
 local minimized = false
@@ -38,7 +38,8 @@ local _settings = {
     ffa = false,
     range = 150,
     predict = true,
-    showRange = true
+    showRange = true,
+    aimPart = "Head"
 }
  
 local RunService = game:GetService("RunService") --Get the Run Service.
@@ -100,8 +101,8 @@ end)
 function BB_localChr ()
     local _record = {math.huge, nil}
     for i,v in pairs (characters:GetChildren()) do
-        if v.Body:FindFirstChild("Head") then
-            local dist = (v.Body.Head.Position - camera.CFrame.Position).Magnitude
+        if v.Body:FindFirstChild(_settings.aimPart) then
+            local dist = (v.Body[_settings.aimPart].Position - camera.CFrame.Position).Magnitude
             if dist < _record[1] then
                 _record[1] = dist
                 _record[2] = v
@@ -223,7 +224,15 @@ else --Otherwise, if the function does exist, then execute this code
             buttons.Range.Text = "Range: "..tostring(_settings.range)
         end
     end)
+    
+    buttons.AimPart.Text = "AimPart: "..tostring(_settings.aimPart)
    
+    buttons.AimPart.FocusLost:Connect(function()
+        _settings.aimPart = buttons.AimPart.Text
+        
+        buttons.AimPart.Text = "AimPart: "..tostring(_settings.aimPart)
+    end)
+
     buttons.Enabled.MouseButton1Click:Connect(function()
         toggle(buttons.Enabled)
         _settings.enabled = not _settings.enabled
@@ -270,6 +279,8 @@ else --Otherwise, if the function does exist, then execute this code
                 t("Show a circle around your mouse that displays the range in which people will be targetted.")
             elseif isHovering(buttons.Range) then
                 t("The max amount of pixels away from your mouse a player can be in order for them to be potentially targeted. Please note that the target is detirmened by whoever is closest to the camera, not distance from the mouse.")
+            elseif isHovering(buttons.AimPart) then
+                t("The name of the part in the target's character to lock onto.")
             else
                 t("Make sure to set your sensitivity to 0.36 (1 bar) or else the aimbot will freak out! Report any bugs to angeld23#6785 on Discord. Join the discord server: discord.me/temporal")
             end
@@ -277,15 +288,15 @@ else --Otherwise, if the function does exist, then execute this code
             if target then
                
                 if not isBB then
-                    if target.Character and target.Character:FindFirstChild("Head") and target.Character.Head:IsA("BasePart") and (clicking.R or holding_aim) and (target.Character:FindFirstChild("Humanoid") and target.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
+                    if target.Character and target.Character:FindFirstChild(_settings.aimPart) and target.Character[_settings.aimPart]:IsA("BasePart") and (clicking.R or holding_aim) and (target.Character:FindFirstChild("Humanoid") and target.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
                        
-                        local _sPos, onScreen = camera:WorldToScreenPoint(target.Character.Head.Position)
+                        local _sPos, onScreen = camera:WorldToScreenPoint(target.Character[_settings.aimPart].Position)
                         local sPos = Vector2.new(_sPos.X, _sPos.Y)
                         if onScreen then
                            
                             local ray = camera:ScreenPointToRay(mPos.X, mPos.Y)
                             local pos
-                            local _pos = target.Character.Head.Position
+                            local _pos = target.Character[_settings.aimPart].Position
                             if _settings.predict and _prevPos then
                                 pos = _pos + (_pos - _prevPos) * 3
                             else
@@ -336,15 +347,15 @@ else --Otherwise, if the function does exist, then execute this code
                         record = {player = nil, distance = nil}
                     end
                 else
-                    if target.Body:FindFirstChild("Head") and target.Body.Head:IsA("BasePart") and (clicking.R or holding_aim) and target:FindFirstChild("Health") and target.Health.Value > 0 then
+                    if target.Body:FindFirstChild(_settings.aimPart) and target.Body[_settings.aimPart]:IsA("BasePart") and (clicking.R or holding_aim) and target:FindFirstChild("Health") and target.Health.Value > 0 then
                        
-                        local _sPos, onScreen = camera:WorldToScreenPoint(target.Body.Head.Position)
+                        local _sPos, onScreen = camera:WorldToScreenPoint(target.Body[_settings.aimPart].Position)
                         local sPos = Vector2.new(_sPos.X, _sPos.Y)
                         if onScreen then
                            
                             local ray = camera:ScreenPointToRay(mPos.X, mPos.Y)
                             local pos
-                            local _pos = target.Body.Head.Position
+                            local _pos = target.Body[_settings.aimPart].Position
                             if _settings.predict and _prevPos then
                                 pos = _pos + (_pos - _prevPos) * 3
                             else
@@ -433,12 +444,12 @@ else --Otherwise, if the function does exist, then execute this code
                 for i,v in pairs (Players:GetPlayers()) do
                     if v ~= player and (v.Team ~= player.Team or _settings.ffa) then
                         if v.Character then
-                            if v.Character:FindFirstChild("Head") and v.Character.Head:IsA("BasePart") and (v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid:IsA("Humanoid") and v.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
-                                local _sPos, onScreen = camera:WorldToScreenPoint(v.Character.Head.Position)
+                            if v.Character:FindFirstChild(_settings.aimPart) and v.Character[_settings.aimPart]:IsA("BasePart") and (v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid:IsA("Humanoid") and v.Character.Humanoid.Health > 0.01) or NO_HUMANOIDS then
+                                local _sPos, onScreen = camera:WorldToScreenPoint(v.Character[_settings.aimPart].Position)
                                 local sPos = Vector2.new(_sPos.X, _sPos.Y)
                                 if onScreen then
                                     if (sPos - mPos).Magnitude <= _settings.range then
-                                        local dist = (camera.CFrame.Position - v.Character.Head.Position).Magnitude
+                                        local dist = (camera.CFrame.Position - v.Character[_settings.aimPart].Position).Magnitude
                                         if not record.player or dist < record.distance then
                                             record = {player = v, distance = dist}
                                         end
@@ -453,12 +464,12 @@ else --Otherwise, if the function does exist, then execute this code
                 if lChr then
                     for i,v in pairs (characters:GetChildren()) do
                         if v ~= lChr and (not BB_isSameTeam(v) or _settings.ffa) then
-                            if v.Body:FindFirstChild("Head") and v.Body.Head:IsA("BasePart") and v:FindFirstChild("Health") and v.Health.Value > 0 then
-                                local _sPos, onScreen = camera:WorldToScreenPoint(v.Body.Head.Position)
+                            if v.Body:FindFirstChild(_settings.aimPart) and v.Body[_settings.aimPart]:IsA("BasePart") and v:FindFirstChild("Health") and v.Health.Value > 0 then
+                                local _sPos, onScreen = camera:WorldToScreenPoint(v.Body[_settings.aimPart].Position)
                                 local sPos = Vector2.new(_sPos.X, _sPos.Y)
                                 if onScreen then
                                     if (sPos - mPos).Magnitude <= _settings.range then
-                                        local dist = (camera.CFrame.Position - v.Body.Head.Position).Magnitude
+                                        local dist = (camera.CFrame.Position - v.Body[_settings.aimPart].Position).Magnitude
                                         if not record.player or dist < record.distance then
                                             record = {player = v, distance = dist}
                                         end
