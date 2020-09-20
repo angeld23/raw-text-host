@@ -141,6 +141,9 @@ InputService.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton2 and USE_RIGHT_CLICK then
         clicking.R = true
     end
+    if input.KeyCode == TOGGLE_VIS_KEY then
+        gui.Visible = not gui.Visible
+    end
 end)
  
 InputService.InputEnded:Connect(function(input)
