@@ -59,7 +59,11 @@ gui.Parent = game:GetService("CoreGui")
 local clicking = {L = false, R = false}
  
 top.Title.Text = "Temporal v"..version
- 
+
+if main:FindFirstChild("PleaseUpdate") then
+    main.PleaseUpdate:Destroy()
+end
+
 --Functions
  
 function rotateCamera(x, y) --Function for rotating camera along X and Y axis with the MoveMouse function.
